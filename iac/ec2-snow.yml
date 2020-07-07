@@ -40,6 +40,7 @@ Parameters:
     Description: Image for EC2 Instance
     Type: AWS::EC2::Image::Id
     Default: ami-0b1e2eeb33ce3d66f
+    
 Resources:
 
   EC2Instance:
