@@ -38,7 +38,7 @@ Parameters:
 
   ImageID:
     Description: Image for EC2 Instance
-    Type: String
+    Type: AWS::EC2::Image::Id
     Default: ami-0b1e2eeb33ce3d66f
 Resources:
 
