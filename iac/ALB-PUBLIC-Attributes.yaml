@@ -1,0 +1,96 @@
+# Filename: ALB-PUBLIC.yaml
+
+# Version History : 
+# v1: 07/03/2020  Authored by Kevin Gross for support or feedback reach out at kevin.gross@accenture.com
+
+# Date : Comments
+# 7/3/2020:   Created new form that will allow for use of attributes specific to ALB
+#
+
+############################################################
+
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ALBName:
+    Description: Name of the Application Load Balancer (Optional)
+    Type: String
+  ALBSubnets:
+    Description: ID of the AZ subnets
+    Type: "List<AWS::EC2::Subnet::Id>"
+    Default: ''
+  SecurityGroupNames:
+    Description: Security Group (Optional)
+    Type: String
+  IPAddressType:
+    Description: Select IPv4 or DualStack
+    Type: String
+    Default: ipv4
+    AllowedValues:
+    - ipv4
+    - dualstack
+  DeletionProtection:
+    Description: Protect ALB from Deletion
+    Type: String
+    Default: false
+    AllowedValues:
+    - true
+    - false
+  UseHTTP2:
+    Description: Enabled HTTP2 (Enabled by Default)
+    Type: String
+    Default: true
+    AllowedValues:
+    - true
+    - false
+
+Conditions:
+  SGNames:
+    Fn::Not:
+    - Fn::Equals:
+      - ''
+      - Ref: SecurityGroupNames
+  NoALBName:
+    Fn::Not:
+    - Fn::Equals:
+      - ''
+      - Ref: ALBName      
+
+Resources:
+  myALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+      IpAddressType: !Ref IPAddressType
+      LoadBalancerAttributes: 
+      #   - LoadBalancerAttribute
+      - Key: access_logs.s3.enabled 
+        Value: "false"
+      # - Key: access_logs.s3.bucket
+      #   Value: "50"
+      # - Key: access_logs.s3.prefix
+      #   Value: "50"
+      - Key: deletion_protection.enabled
+        Value: !Ref DeletionProtection
+      - Key: idle_timeout.timeout_seconds
+        Value: "50"
+      - Key: routing.http.drop_invalid_header_fields.enabled 
+        Value: "false"
+      - Key: routing.http2.enabled 
+        Value: !Ref UseHTTP2
+      
+      Name: 
+        Fn::If:
+        - NoALBName
+        - Ref: ALBName
+        - Ref: AWS::NoValue
+      Scheme: internet-facing
+      SecurityGroups: 
+        Fn::If:
+        - SGNames
+        - Ref: SecurityGroupNames
+        - Ref: AWS::NoValue
+      # SubnetMappings:
+      Subnets: !Ref ALBSubnets
+      # Tags: 
+      #   - Tag
+      Type: application

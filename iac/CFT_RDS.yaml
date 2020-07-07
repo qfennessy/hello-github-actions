@@ -1,0 +1,77 @@
+############################################################ 
+# Filename: Fuji_CFTS_RDS.yaml
+ 
+# Version History : 
+# v1: Authored by Sherry Oladimeji for support or feedback reach out at sherry.oladimeji@accenture.com
+ 
+# Comments:
+# 
+ 
+############################################################
+AWSTemplateFormatVersion: 2010-09-09
+Description: "This template deploys a Microsoft RDS instance"
+Parameters:
+  FujiInstanceClass:
+    Description: " Choose Instance Class"
+    Type: String
+    Default: db.m5.large
+    AllowedValues:
+      - db.m5.large
+      - db.m5.xlarge
+      - db.m5.2xlarge
+      - db.m5.4xlarge
+      - db.m5.8xlarge
+      - db.m4.large
+      - db.m4.xlarge
+      - db.m4.2xlarge
+      - db.m4.4xlarge
+  MasterUsername:
+    Description: " Choose the master username for the DB Instance"
+    Type: String
+    Default: admin
+  MasterUserPassword:
+    Description: " Choose the master password for the DB Instance"
+    Type: String
+    Default: MyPassword
+  subnet1ID:
+    Description: " Choose subnet ID for Subnet1"
+    Type: String
+  subnet2ID:
+    Description: " Choose subnet ID for Subnet2"
+    Type: String
+  VPCSecurityGroups:
+    Description: " Choose SecurityGroup ID for VPC"
+    Type: String
+Resources:
+  FujiMsRDS:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      AllocatedStorage: "20"
+      AllowMajorVersionUpgrade: false
+      DBInstanceClass: !Ref FujiInstanceClass
+      Port: "1433"
+      StorageType: gp2
+      BackupRetentionPeriod: 7
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      Engine: sqlserver-se
+      EngineVersion: 14.00.3223.3.v1
+      MultiAZ: false
+      PubliclyAccessible: false
+      LicenseModel: license-included
+      VPCSecurityGroups:
+        - !Ref VPCSecurityGroups
+      Tags:
+        - Key: Name
+          Value: FujiMsRDS
+  defaults:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: Created for the RDS Management Console
+      SubnetIds:
+        - !Ref subnet1ID
+        - !Ref subnet2ID
+  dbsgdefault:
+    Type: "AWS::RDS::DBSecurityGroup"
+    Properties:
+      GroupDescription: default
