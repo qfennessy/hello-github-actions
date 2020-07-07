@@ -1,12 +1,12 @@
-name: A workflow for my Hello World file
+name: CloudFormation build and deploy pipeline
 on: push
 
 jobs:
-  build:
-    name: Hello world action
+  lint:
+    name: CFT Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: ./action-a
-        with:
-          MY_NAME: "Mona Lisa Overdrive"
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: cfn-lint-action
+        uses: ScottBrenner/cfn-lint-action@1.6.0
