@@ -15,8 +15,4 @@ jobs:
       - name: cfn-lint
         uses: ScottBrenner/cfn-lint-action@1.6.0
         with:
-          args: "**/iac/*.json"
-        with:
-          args: "**/iac/*.yaml"
-        with:
-          args: "**/iac/*.yml"
+          args: ["**/iac/*.json", "**/iac/*.yaml", "**/iac/*.yml"]
