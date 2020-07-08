@@ -4,7 +4,8 @@ on:
     branches:
     - master
     paths:
-    - 'iac/**'    
+    - 'iac/**' 
+    - '.github/workflow/**'   
 
 jobs:
 
@@ -13,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
+      - name: Inspect context
+        run: |
+          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: cfn-lint
