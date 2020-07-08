@@ -1,7 +1,9 @@
 name: CloudFormation build and deploy pipeline
-on: push
-  branches:
-  - master
+on: 
+  push
+    branches:
+    - master
+    
 jobs:
 
   cloudformation-linter:
@@ -19,6 +21,11 @@ jobs:
   deploy:
     name: CFT Upload to Repo and Deploy to Test Stack
     runs-on: ubuntu-latest
+
+    strategy:    
+      matrix:
+        region: [us-east-1, us-east-2]
+        az: [a, b, c]
 
     steps:
       - name: Configure AWS credentials from Prod account
