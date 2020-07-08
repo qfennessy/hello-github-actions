@@ -16,7 +16,7 @@ jobs:
           args: "**/iac/*"
   
   deploy:
-    name: CFT Deploy
+    name: CFT Deploy 2
     runs-on: ubuntu-latest
 
     steps:
