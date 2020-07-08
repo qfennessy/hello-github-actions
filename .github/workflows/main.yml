@@ -30,15 +30,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Upload to target bucket
+        run: |
+          aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
+
       - name: Deploy
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
         env:
-          TEMPLATE: 'sqs-example.yaml'
+          TEMPLATE: 'iac/sqs-example.yaml'
           AWS_STACK_NAME: 'my-stack'
           AWS_REGION: 'us-east-1'
           AWS_DEPLOY_BUCKET: ${{secrets.PROD_AWS_DEPLOY_BUCKET}}
           AWS_BUCKET_PREFIX: stacks/ec2
 
-      # - name: Copy files to target bucket with the AWS CLI
-      #   run: |
-      #     aws s3 sync . s3://qf-s3-github-actions-deploy-bucket
