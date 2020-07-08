@@ -34,7 +34,7 @@ jobs:
       - name: Taskcat Installation
         run: |
           python -m pip install --upgrade pip
-          pip install taskcat
+          python -m pip install taskcat
 
       - name: Upload to Target Bucket
         run: |
