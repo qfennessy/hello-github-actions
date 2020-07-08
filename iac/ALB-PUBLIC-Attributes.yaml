@@ -62,7 +62,7 @@ Resources:
     Properties: 
       IpAddressType: !Ref IPAddressType
       LoadBalancerAttributes: 
-      #   - LoadBalancerAttribute
+      #   - LoadBalancerAttributeddddd
       - Key: access_logs.s3.enabled 
         Value: "false"
       # - Key: access_logs.s3.bucket
