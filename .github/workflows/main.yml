@@ -33,7 +33,8 @@ jobs:
 
       - name: Taskcat Installation
         run: |
-          pip3 install taskcat
+          python -m pip install --upgrade pip
+          pip install taskcat
 
       - name: Upload to Target Bucket
         run: |
