@@ -16,10 +16,10 @@ jobs:
         uses: ScottBrenner/cfn-lint-action@1.6.0
         with:
           args: "**/iac/*"
-  upload:
+  # upload:
 
-    name: CFT Upload
-    runs-on: ubuntu-latest
+    # name: CFT Upload
+    # runs-on: ubuntu-latest
 
   deploy:
       runs-on: ubuntu-latest
