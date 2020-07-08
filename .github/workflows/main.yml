@@ -16,7 +16,7 @@ jobs:
           args: "**/iac/*"
   
   deploy:
-    name: CFT Upload and Deploy
+    name: CFT Upload to Repo and Deploy to Test Stack
     runs-on: ubuntu-latest
 
     steps:
@@ -62,6 +62,10 @@ jobs:
         # Parameterize the TEMPLATE that is run by Cloudformation
         # Parameterize the bucket prefix also
 
+      - name: Describe Test Stack
+        run: |
+          aws cloudformation describe-stacks --stack-name 'my-stack'
+      
       - name: Delete Test Stack
         run: |
           aws cloudformation delete-stack --stack-name 'my-stack'
