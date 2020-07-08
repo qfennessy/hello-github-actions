@@ -32,6 +32,7 @@ Parameters:
   MasterUserPassword:
     Description: " Choose the master password for the DB Instance"
     Type: String
+    NoEcho: True
     Default: MyPassword
   subnet1ID:
     Description: " Choose subnet ID for Subnet1"
@@ -71,7 +72,7 @@ Resources:
       SubnetIds:
         - !Ref subnet1ID
         - !Ref subnet2ID
-  dbsgdefault:
-    Type: "AWS::RDS::DBSecurityGroup"
-    Properties:
-      GroupDescription: default
+  # dbsgdefault:
+  #   Type: "AWS::RDS::DBSecurityGroup"
+  #   Properties:
+  #     GroupDescription: default
