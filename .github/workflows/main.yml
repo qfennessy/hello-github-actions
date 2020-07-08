@@ -3,17 +3,17 @@ on: push
 
 jobs:
 
-  cloudformation-linter:
-    name: CFT Lint
-    runs-on: ubuntu-latest
+  # cloudformation-linter:
+  #   name: CFT Lint
+  #   runs-on: ubuntu-latest
   
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: cfn-lint
-        uses: ScottBrenner/cfn-lint-action@1.6.0
-        with:
-          args: "**/iac/*"
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: cfn-lint
+  #       uses: ScottBrenner/cfn-lint-action@1.6.0
+  #       with:
+  #         args: "**/iac/*"
   
   deploy:
     name: CFT Deploy
