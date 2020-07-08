@@ -28,6 +28,7 @@ jobs:
     name: CFT Upload to Repo and Deploy to Test Stack
     runs-on: ubuntu-latest
 
+    needs: cloudformation-linter
     steps:
       - name: Configure AWS credentials from Prod account
         uses: aws-actions/configure-aws-credentials@v1
