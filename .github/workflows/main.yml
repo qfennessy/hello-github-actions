@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
         env:
-          TEMPLATE: 'ec2-snow.yml'
+          TEMPLATE: 'main.yml'
           AWS_STACK_NAME: 'my-stack'
           AWS_REGION: 'us-east-1'
           AWS_ACCESS_KEY_ID: ${{secrets.PROD_AWS_ACCESS_KEY_ID}}
