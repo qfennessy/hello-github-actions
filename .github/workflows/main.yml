@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
 
-      - name: cfn-lint
-        uses: ScottBrenner/cfn-lint-action@1.6.0
-        with:
-          args: "**/iac/*"
+      # - name: cfn-lint
+      #   uses: ScottBrenner/cfn-lint-action@1.6.0
+      #   with:
+      #     args: "**/iac/*"
   # upload:
 
     # name: CFT Upload
