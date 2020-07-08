@@ -26,7 +26,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -40,6 +40,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{secrets.PROD_AWS_SECRET_ACCESS_KEY}}
           AWS_DEPLOY_BUCKET: ${{secrets.AWS_DEPLOY_BUCKET}}
 
-      - name: Copy files to the test website with the AWS CLI
+      - name: Copy files to target bucket with the AWS CLI
         run: |
-          aws s3 sync . s3://my-s3-test-website-bucket
+          aws s3 sync . s3://qf-s3-github-actions-deploy-bucket
