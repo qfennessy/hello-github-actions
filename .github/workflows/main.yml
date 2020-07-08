@@ -16,7 +16,7 @@ jobs:
           args: "**/iac/*"
   
   deploy:
-    name: CFT Deploy 2
+    name: CFT Upload and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -26,13 +26,17 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+        # Integrate with Takeda secrets mgmt
 
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Upload to target bucket
+        env:
+          AWS_BUCKET_PREFIX: stacks/ec2
         run: |
-          aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
+          aws s3 sync iac s3://${{AWS_BUCKET_PREFIX}}/qf-s3-github-actions-deploy-bucket
+        # modify to target JFrog Artifactory
 
       - name: Deploy
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
@@ -41,5 +45,7 @@ jobs:
           AWS_STACK_NAME: 'my-stack'
           AWS_REGION: 'us-east-1'
           AWS_DEPLOY_BUCKET: ${{secrets.PROD_AWS_DEPLOY_BUCKET}}
-          AWS_BUCKET_PREFIX: stacks/ec2
+
+        # Parameterize the TEMPLATE that is run by Cloudformation
+        # Parameterize the bucket prefix also
 
