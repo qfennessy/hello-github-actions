@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - master
+    paths:
+    - 'iac/**'    
 
 jobs:
 
@@ -75,12 +77,3 @@ jobs:
       - name: Delete Test Stack
         run: |
           aws cloudformation delete-stack --stack-name 'my-stack'
-
-  # taskcat:
-  #   name: CFT Test across regions and AZs
-  #   runs-on: ubuntu-latest
-
-  #   strategy:    
-  #     matrix:
-  #       region: [us-east-1, us-east-2]
-  #       az: [a, b, c]
