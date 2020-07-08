@@ -5,7 +5,7 @@ on:
     - master
     paths:
     - 'iac/**' 
-    - '.github/workflow/**'   
+    - '.github/workflows/**'   
 
 jobs:
 
