@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload to target bucket
         run: |
-          aws s3 sync iac s3://stacks/ec2/qf-s3-github-actions-deploy-bucket
+          aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
         # modify to target JFrog Artifactory
 
       - name: Deploy
