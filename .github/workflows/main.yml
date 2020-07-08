@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
         env:
-          TEMPLATE: 'iac/sqs-example.yml'
+          TEMPLATE: 'iac/sqs-example.yaml'
           AWS_STACK_NAME: 'my-stack'
           AWS_REGION: 'us-east-1'
           AWS_DEPLOY_BUCKET: ${{secrets.PROD_AWS_DEPLOY_BUCKET}}
