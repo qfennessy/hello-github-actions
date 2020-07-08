@@ -22,11 +22,6 @@ jobs:
     name: CFT Upload to Repo and Deploy to Test Stack
     runs-on: ubuntu-latest
 
-    strategy:    
-      matrix:
-        region: [us-east-1, us-east-2]
-        az: [a, b, c]
-
     steps:
       - name: Configure AWS credentials from Prod account
         uses: aws-actions/configure-aws-credentials@v1
@@ -38,11 +33,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Taskcat Installation
-        run: |
-          python -m pip install --upgrade pip setuptools
-          python -m pip install taskcat
 
       - name: Upload to Target Bucket
         run: |
@@ -86,3 +76,11 @@ jobs:
         run: |
           aws cloudformation delete-stack --stack-name 'my-stack'
 
+  # taskcat:
+  #   name: CFT Test across regions and AZs
+  #   runs-on: ubuntu-latest
+
+  #   strategy:    
+  #     matrix:
+  #       region: [us-east-1, us-east-2]
+  #       az: [a, b, c]
