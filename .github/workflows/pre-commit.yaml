@@ -1,10 +1,11 @@
 name: pre-commit
 
-on:
+on: 
   push:
-    branches: [master]
-  paths:
-  - 'iac/**'
+    branches:
+    - master
+    paths:
+    - 'iac/**'
 
 jobs:
    cloudformation-linter:
