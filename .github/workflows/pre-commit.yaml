@@ -1,0 +1,32 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  paths:
+  - 'iac/**' 
+  - '.github/workflows/**'
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+    - uses: pre-commit/action@v2.0.0
+    
+   cloudformation-linter:
+    name: CFT Lint
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Inspect context
+        run: |
+          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: cfn-lint
+        uses: ScottBrenner/cfn-lint-action@1.6.0
+        with:
+          args: "**/iac/*"
