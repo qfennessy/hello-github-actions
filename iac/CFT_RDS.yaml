@@ -68,7 +68,7 @@ Resources:
   defaults:
     Type: "AWS::RDS::DBSubnetGroup"
     Properties:
-      DBSubnetGroupDescription: Created for the RDS Management Console
+      DBSubnetGroupDescription: Created for RDS Management Console
       SubnetIds:
         - !Ref subnet1ID
         - !Ref subnet2ID
