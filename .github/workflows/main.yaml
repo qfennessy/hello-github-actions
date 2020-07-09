@@ -46,12 +46,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
-      - uses: clowdhaus/aws-github-actions/packages/awscli@v0.4
+      - uses: clowdhaus/aws-github-actions/packages/awscli@master
         with:
           cli-command: ec2
           cli-subcommand: describe-dhcp-options
           aws-region: us-east-1
-          
+
       - name: Upload to Target Bucket
         run: |
           aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
