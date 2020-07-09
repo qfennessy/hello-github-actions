@@ -4,23 +4,14 @@ on:
   push:
     branches:
     - master
-    paths:
-    - 'iac/**'
+    # paths:
+    # - 'iac/**'
+    # - '.github/**'
 
 jobs:
-   cloudformation-linter:
+   pre-commit:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
     - uses: pre-commit/action@v2.0.0
-
-    - name: Inspect context
-      run: |
-        echo This workflow on ${{ github.repository }}, started by ${{ github.actor }}
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: cfn-lint
-      uses: ScottBrenner/cfn-lint-action@1.6.0
-      with:
-        args: "**/iac/*"
