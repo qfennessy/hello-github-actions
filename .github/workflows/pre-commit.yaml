@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Inspect context
         run: |
-          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
+          echo This workflow on ${{ github.repository }}, started by ${{ github.actor }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: cfn-lint
