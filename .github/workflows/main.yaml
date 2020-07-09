@@ -46,6 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
+      - name: Describe-DHCP-Options
         uses: clowdhaus/aws-github-actions/packages/awscli@master
         with:
           cli-command: ec2
