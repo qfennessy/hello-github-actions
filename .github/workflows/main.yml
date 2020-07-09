@@ -1,3 +1,8 @@
+#
+# modify to target JFrog Artifactory
+# TODO: add taskcat test runs against additional regions
+#  https://github.com/aws-quickstart/taskcat
+
 name: CloudFormation build and deploy pipeline
 on: 
   push:
@@ -44,25 +49,7 @@ jobs:
       - name: Upload to Target Bucket
         run: |
           aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
-        # modify to target JFrog Artifactory
 
-      # # Untested JFrog code
-      # - name: Setup JFrog CLI
-      #   uses: jfrog/setup-jfrog-cli@v1
-      #   env:
-      #     JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
-      # - name: Run JFrog CLI
-      #   run: |
-      #     jfrog --version
-      #     # Collect environment variables for the build
-      #     jfrog rt bce
-      #     # Collect VCS details from git and add them to the build
-      #     jfrog rt bag
-      #     # Publish build info
-      #     jfrog rt bp 
-
-      # TODO: add taskcat test runs against additional regions
-      #  https://github.com/aws-quickstart/taskcat
 
       - name: Deploy Test Stack
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
