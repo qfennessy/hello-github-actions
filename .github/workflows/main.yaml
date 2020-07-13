@@ -9,7 +9,11 @@ on:
     branches:
     - master
     paths:
-    - 'iac/**' 
+    - 'SQS/**' 
+    - 'EC2/**'
+    - 'RDS/**'
+    - 'ALB/**'
+    - 'S3/**'
     - '.github/workflows/**'   
 
 jobs:
@@ -27,7 +31,7 @@ jobs:
       - name: cfn-lint
         uses: ScottBrenner/cfn-lint-action@1.6.0
         with:
-          args: "**/iac/*"
+          args: "**/SQS/*"
   
   deploy:
     name: CFT Upload to Repo and Deploy to Test Stack
@@ -45,21 +49,16 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-      
-      - name: Describe-DHCP-Options
-        uses: clowdhaus/aws-github-actions/packages/awscli@master
-        with:
-          cli-command: ec2
-          cli-subcommand: describe-dhcp-options
-          aws-region: us-east-1
 
       - name: Upload to Target Bucket
+        # uses the AWS CLI, available in Ubuntu container
         run: |
           aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
 
 
       - name: Deploy Test Stack
         uses: mgenteluci/cloudformation-deploy-action@v1.4.0
+        # https://github.com/clowdhaus/aws-github-actions/tree/master/packages/awscli
         env:
           TEMPLATE: 'iac/sqs-example.yaml'
           AWS_STACK_NAME: 'my-stack'
