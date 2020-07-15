@@ -57,6 +57,13 @@ jobs:
         run: |
           echo "$FOO"        
 
+      - name: Upload to JFrog Artifactory
+        run: |
+          echo "$FOO"
+          jfrog --version
+          jfrog rt c --access-token=%ARTIFACTORY_TOKEN_1 --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
+          jfrog rt ping
+          
       - name: JFrog Setup
         uses: jfrog/setup-jfrog-cli@v1
         env: 
@@ -65,9 +72,9 @@ jobs:
 
       - name: Upload to JFrog Artifactory
         run: |
-          echo "%FOO%"
+          echo "$FOO"
           jfrog --version
-          jfrog rt c --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
+          jfrog rt c --access-token=%ARTIFACTORY_TOKEN_1 --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
           jfrog rt ping
 
       # - name: Upload to Target Bucket
