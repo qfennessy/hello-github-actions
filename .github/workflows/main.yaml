@@ -62,6 +62,8 @@ jobs:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
       - run: |
           # Ping the server
+          jfrog rt c --access-token=%ARTIFACTORY_TOKEN_1 --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
+
           jfrog rt ping
 
 
