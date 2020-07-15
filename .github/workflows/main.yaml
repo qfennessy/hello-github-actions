@@ -49,10 +49,11 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-        env: 
-          FOO: ${{ secrets.FOO }}
+
 
       - name: Test Secrets 2
+        env: 
+          FOO: ${{ secrets.FOO }}
         run: |
           echo "%FOO%"        
 
