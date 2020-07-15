@@ -55,7 +55,7 @@ jobs:
         env: 
           FOO: ${{ secrets.FOO }}
         run: |
-          echo "$env:FOO"        
+          echo "$FOO"        
 
       - name: JFrog Setup
         uses: jfrog/setup-jfrog-cli@v1
