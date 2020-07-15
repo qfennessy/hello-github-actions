@@ -18,60 +18,71 @@ on:
 
 jobs:
 
-  cloudformation-linter:
-    name: CFT Lint
-    runs-on: ubuntu-latest
+  # cloudformation-linter:
+  #   name: CFT Lint
+  #   runs-on: ubuntu-latest
   
-    steps:
-      - name: Inspect context
-        run: |
-          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: cfn-lint
-        uses: ScottBrenner/cfn-lint-action@1.6.0
-        with:
-          args: "**/SQS/*"
+  #   steps:
+  #     - name: Inspect context
+  #       run: |
+  #         echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: cfn-lint
+  #       uses: ScottBrenner/cfn-lint-action@1.6.0
+  #       with:
+  #         args: "**/SQS/*"
   
   deploy:
     name: CFT Upload to Repo and Deploy to Test Stack
     runs-on: ubuntu-latest
 
-    needs: cloudformation-linter
+    # needs: cloudformation-linter
     steps:
-      - name: Configure AWS credentials from Prod account
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-        # Integrate with Takeda secrets mgmt    
+      # - name: Configure AWS credentials from Prod account
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      #   # Integrate with Takeda secrets mgmt    
 
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Upload to Target Bucket
-        # uses the AWS CLI, available in Ubuntu container
+      - name: JFrog Setup
+        uses: jfrog/setup-jfrog-cli@v1
+        env: 
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
+
+      - name: Upload to JFrog Artifactory
         run: |
-          aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
+          jfrog --version
+          jfrog rt c --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
+          jfrog rt ping
+
+      # - name: Upload to Target Bucket
+      #   # uses the AWS CLI, available in Ubuntu container
+      #   run: |
+      #     aws s3 sync iac s3://qf-s3-github-actions-deploy-bucket
 
 
-      - name: Deploy Test Stack
-        uses: mgenteluci/cloudformation-deploy-action@v1.4.0
-        # https://github.com/clowdhaus/aws-github-actions/tree/master/packages/awscli
-        env:
-          TEMPLATE: 'iac/sqs-example.yaml'
-          AWS_STACK_NAME: 'my-stack'
-          AWS_REGION: 'us-east-1'
-          AWS_DEPLOY_BUCKET: ${{secrets.PROD_AWS_DEPLOY_BUCKET}}
+      # - name: Deploy Test Stack
+      #   uses: mgenteluci/cloudformation-deploy-action@v1.4.0
+      #   # https://github.com/clowdhaus/aws-github-actions/tree/master/packages/awscli
+      #   env:
+      #     TEMPLATE: 'iac/sqs-example.yaml'
+      #     AWS_STACK_NAME: 'my-stack'
+      #     AWS_REGION: 'us-east-1'
+      #     AWS_DEPLOY_BUCKET: ${{secrets.PROD_AWS_DEPLOY_BUCKET}}
 
-        # Parameterize the TEMPLATE that is run by Cloudformation
-        # Parameterize the bucket prefix also
+      #   # Parameterize the TEMPLATE that is run by Cloudformation
+      #   # Parameterize the bucket prefix also
 
-      - name: Describe Test Stack
-        run: |
-          aws cloudformation describe-stacks --stack-name 'my-stack'
+      # - name: Describe Test Stack
+      #   run: |
+      #     aws cloudformation describe-stacks --stack-name 'my-stack'
       
-      - name: Delete Test Stack
-        run: |
-          aws cloudformation delete-stack --stack-name 'my-stack'
+      # - name: Delete Test Stack
+      #   run: |
+      #     aws cloudformation delete-stack --stack-name 'my-stack'
