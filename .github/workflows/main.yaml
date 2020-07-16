@@ -27,37 +27,26 @@ jobs:
     - name: publish to artifactory
       uses: advancedcsg-open/action-jfrog-cli@master
       with:
-        url: 'http://ec2-3-219-34-57.compute-1.amazonaws.com/'
+        url: ${{ secrets.ARTIFACTORY_URL }}
         credentials type: 'apikey'
         apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
         args: u "dist/*" "/mu/repo/path/" --recursive=true --build-name=myawesomeapp
 
-      # - name: jFrog CLI for Artifactory
-      #   uses: advancedcsg-open/action-jfrog-cli@v1.2.0
-      #   with:
-      #     url: http://ec2-3-219-34-57.compute-1.amazonaws.com/
-      #     credentials type: apikey
-      #     apikey: AKCp5fU4adKFPh3wfJ5QAcJ6aSVEwhh6n25ChE3eZskvDeSMbqGNUuVRTWFKdyYeWKRJMpWrp
-          # Artifactory access token. Must be supplied when credentials type is accesstoken
-          # access token: # optional
-          # Specify a working directory for the command to run in.
-          # working directory: # optional, default is .
 
-
-  # cloudformation-linter:
-  #   name: CFT Lint
-  #   runs-on: ubuntu-latest
+  cloudformation-linter:
+    name: CFT Lint
+    runs-on: ubuntu-latest
   
-  #   steps:
-  #     - name: Inspect context
-  #       run: |
-  #         echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: cfn-lint
-  #       uses: ScottBrenner/cfn-lint-action@1.6.0
-  #       with:
-  #         args: "**/SQS/*"
+    steps:
+      - name: Inspect context
+        run: |
+          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: cfn-lint
+        uses: ScottBrenner/cfn-lint-action@1.6.0
+        with:
+          args: "**/SQS/*"
   
   # deploy:
   #   name: CFT Upload to Repo and Deploy to Test Stack
