@@ -14,9 +14,35 @@ on:
     - 'RDS/**'
     - 'ALB/**'
     - 'S3/**'
-    - '.github/workflows/**'   
+    - '.github/workflows/**' 
+name: Main Workflow  
 
 jobs:
+  artifactoryUpload:
+    name: Upload Trigger
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1.2.0
+
+    - name: publish to artifactory
+      uses: advancedcsg-open/action-jfrog-cli@master
+      with:
+        url: 'http://ec2-3-219-34-57.compute-1.amazonaws.com/'
+        credentials type: 'apikey'
+        apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
+        args: u "dist/*" "/mu/repo/path/" --recursive=true --build-name=myawesomeapp
+
+      # - name: jFrog CLI for Artifactory
+      #   uses: advancedcsg-open/action-jfrog-cli@v1.2.0
+      #   with:
+      #     url: http://ec2-3-219-34-57.compute-1.amazonaws.com/
+      #     credentials type: apikey
+      #     apikey: AKCp5fU4adKFPh3wfJ5QAcJ6aSVEwhh6n25ChE3eZskvDeSMbqGNUuVRTWFKdyYeWKRJMpWrp
+          # Artifactory access token. Must be supplied when credentials type is accesstoken
+          # access token: # optional
+          # Specify a working directory for the command to run in.
+          # working directory: # optional, default is .
+
 
   # cloudformation-linter:
   #   name: CFT Lint
@@ -33,12 +59,12 @@ jobs:
   #       with:
   #         args: "**/SQS/*"
   
-  deploy:
-    name: CFT Upload to Repo and Deploy to Test Stack
-    runs-on: ubuntu-latest
+  # deploy:
+  #   name: CFT Upload to Repo and Deploy to Test Stack
+  #   runs-on: ubuntu-latest
 
-    # needs: cloudformation-linter
-    steps:
+  #   # needs: cloudformation-linter
+  #   steps:
       # - name: Configure AWS credentials from Prod account
       #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
@@ -47,8 +73,8 @@ jobs:
       #     aws-region: us-east-1
       #   # Integrate with Takeda secrets mgmt    
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
 
 
       # - name: Test Secrets 2
@@ -57,15 +83,16 @@ jobs:
       #   run: |
       #     echo "$FOO"        
 
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-      - run: |
-          # Ping the server
-          echo FOO BAR
-          jfrog rt c ping --apikey=%JF_ARTIFACTORY_1 --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
+      # - uses: jfrog/setup-jfrog-cli@v1
+      #   env:
+      #     JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+      # - run: |
+      #     # Ping the server
+      #     echo FOO BAR
+      #     jfrog rt c ping --apikey=%JF_ARTIFACTORY_1 --url=http://ec2-3-219-34-57.compute-1.amazonaws.com/
 
-          jfrog rt ping
+      #     jfrog rt ping
+
 
 
       # - name: JFrog Setup
