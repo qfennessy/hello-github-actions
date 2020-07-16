@@ -18,19 +18,7 @@ on:
 # name: Main Workflow  
 
 jobs:
-  artifactoryUpload:
-    name: Upload Trigger  
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1.2.0
 
-    - name: publish to artifactory
-      uses: advancedcsg-open/action-jfrog-cli@master
-      with:
-        url: ${{ secrets.ARTIFACTORY_URL }}
-        credentials type: 'apikey'
-        apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
-        args: u "dist/*" "/mu/repo/path/" --recursive=true --build-name=myawesomeapp
 
 
   cloudformation-linter:
@@ -46,8 +34,23 @@ jobs:
       - name: cfn-lint
         uses: ScottBrenner/cfn-lint-action@1.6.0
         with:
-          args: "**/SQS/*"
-  
+          args: "iac/*"
+
+  artifactoryUpload:
+    name: Upload Trigger  
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1.2.0
+
+    - name: publish to artifactory
+      uses: advancedcsg-open/action-jfrog-cli@master
+      with:
+        url: ${{ secrets.ARTIFACTORY_URL }}
+        credentials type: 'apikey'
+        apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
+        args: u "iac/*"  --recursive=true --build-name=myawesomeapp
+        
   # deploy:
   #   name: CFT Upload to Repo and Deploy to Test Stack
   #   runs-on: ubuntu-latest
