@@ -15,11 +15,11 @@ on:
     - 'ALB/**'
     - 'S3/**'
     - '.github/workflows/**' 
-name: Main Workflow  
+# name: Main Workflow  
 
 jobs:
   artifactoryUpload:
-    # name: Upload Trigger  
+    name: Upload Trigger  
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1.2.0
