@@ -49,8 +49,8 @@ jobs:
         url: ${{ secrets.ARTIFACTORY_URL }}
         credentials type: 'apikey'
         apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
-        args: u "iac/*"  --recursive=true --build-name=myawesomeapp
-        
+        args: u "iac/*" "iac/*" --recursive=true --build-name=myawesomeapp
+
   # deploy:
   #   name: CFT Upload to Repo and Deploy to Test Stack
   #   runs-on: ubuntu-latest
