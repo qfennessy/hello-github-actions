@@ -21,20 +21,20 @@ jobs:
 
 
 
-  cloudformation-linter:
-    name: CFT Lint
-    runs-on: ubuntu-latest
+  # cloudformation-linter:
+  #   name: CFT Lint
+  #   runs-on: ubuntu-latest
   
-    steps:
-      - name: Inspect context
-        run: |
-          echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: cfn-lint
-        uses: ScottBrenner/cfn-lint-action@1.6.0
-        with:
-          args: "iac/*"
+  #   steps:
+  #     - name: Inspect context
+  #       run: |
+  #         echo This workflow on ${{ github.repository }} was started by ${{ github.actor }}
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: cfn-lint
+  #       uses: ScottBrenner/cfn-lint-action@1.6.0
+  #       with:
+  #         args: "iac/*"
 
   artifactoryUpload:
     name: Upload Trigger  
@@ -49,7 +49,7 @@ jobs:
         url: ${{ secrets.ARTIFACTORY_URL }}
         credentials type: 'apikey'
         apikey: ${{ secrets.ARTIFACTORY_TOKEN_1 }}
-        args: u "iac/*" "iac/*" --recursive=true --build-name=myawesomeapp
+        args: u "iac/*" "iac/" --recursive=true --build-name=myawesomeapp
 
   # deploy:
   #   name: CFT Upload to Repo and Deploy to Test Stack
